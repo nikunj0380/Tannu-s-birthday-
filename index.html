@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Happy Birthday, Tannu!</title>
+  <meta name="description" content="A friendly birthday greeting for Tannu — from a friend."/>
+  <style>
+    :root{ --bg:#040814; --overlay: rgba(2,6,23,0.55); --accent:#ff7ab6; --accent2:#60a5fa; --text:#f8fafc; --muted:#9aa8bd; }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial}
+    body{background:var(--bg); color:var(--text); display:flex; align-items:center; justify-content:center; padding:20px}
+    .wrap{width:100%; max-width:900px; position:relative; border-radius:16px; overflow:hidden; box-shadow:0 20px 60px rgba(2,6,23,0.6)}
+    .bg-video{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; filter:brightness(0.55) contrast(1.05)}
+    .overlay{position:absolute; inset:0; background:linear-gradient(180deg, rgba(2,6,23,0.28), rgba(2,6,23,0.6)); z-index:1}
+    .content{position:relative; z-index:2; padding:34px; display:flex; gap:20px; align-items:flex-start}
+    .left{min-width:100px}
+    .logo{width:96px; height:96px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:34px; color:#061428; background:linear-gradient(135deg,var(--accent),var(--accent2))}
+    h1{margin:0;font-size:30px}
+    p.lead{margin:8px 0 16px;color:var(--muted)}
+    .card{background:rgba(255,255,255,0.03); padding:18px; border-radius:12px; border:1px solid rgba(255,255,255,0.04); max-width:640px}
+    .card p{margin:10px 0; line-height:1.55}
+    .actions{display:flex; gap:10px; margin-top:12px; flex-wrap:wrap}
+    button{border:0; padding:10px 14px; border-radius:10px; cursor:pointer; font-weight:700; color:#02122a; background:linear-gradient(90deg,var(--accent),var(--accent2)); box-shadow:0 8px 20px rgba(2,6,23,0.3)}
+    .ghost{background:transparent; color:var(--text); border:1px solid rgba(255,255,255,0.06)}
+    footer{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:14px; color:var(--muted)}
+    .chip{background:rgba(255,255,255,0.02); padding:8px 12px; border-radius:999px; border:1px solid rgba(255,255,255,0.02)}
+    @media (max-width:540px){ .content{flex-direction:column} .logo{width:72px;height:72px;font-size:26px} h1{font-size:20px} .content{padding:20px} }
+  </style>
+</head>
+<body>
+  <div class="wrap" role="main" aria-label="Birthday greeting">
+    <!-- Video background (relative path to work on GitHub Pages) -->
+    <video class="bg-video" autoplay muted loop playsinline src="Record_2025-11-25-23-13-34_40deb401b9ffe8e1df2f1cc5ba480b12.mp4"></video>
+    <div class="overlay"></div>
+
+    <div class="content">
+      <div class="left">
+        <div class="logo" aria-hidden>TA</div>
+      </div>
+
+      <div class="card">
+        <h1 id="title">Happy Birthday, <span id="name">Tannu</span> 🎉</h1>
+        <p class="lead">A friendly note to celebrate your day — sent with warm wishes from a friend.</p>
+
+        <p style="font-weight:700">Hey <span id="name2">Tannu</span> —</p>
+        <p>Wishing you a wonderful birthday filled with smiles, laughter, and great memories. Hope today brings you everything you enjoy and more.</p>
+        <p>Have a fantastic day — enjoy the cake and celebrate with people who make you happy. Cheers to another great year ahead!</p>
+
+        <div class="actions" role="group" aria-label="Actions">
+          <button id="copyBtn">Copy message</button>
+          <button class="ghost" id="playBtn">Play tune</button>
+          <button class="ghost" id="downloadBtn">Download image</button>
+        </div>
+
+        <footer>
+          <div class="chip">From: A Friend</div>
+          <div>
+            <button id="whatsapp" class="ghost">Share WhatsApp</button>
+            <button id="linkBtn" class="ghost">Copy link</button>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const name = 'Tannu';
+    document.getElementById('name').textContent = name;
+    document.getElementById('name2').textContent = name;
+
+    document.getElementById('copyBtn').addEventListener('click', async ()=>{
+      const txt = `Happy Birthday ${name}! Wishing you a wonderful day and a fantastic year ahead. — From a friend`;
+      try { await navigator.clipboard.writeText(txt); document.getElementById('copyBtn').textContent='Copied ✅'; setTimeout(()=>document.getElementById('copyBtn').textContent='Copy message',1400);} catch(e){ alert('Copy failed — select and copy manually.'); }
+    });
+
+    document.getElementById('playBtn').addEventListener('click', ()=>{
+      try{
+        const ctx = new (window.AudioContext||window.webkitAudioContext)();
+        const o = ctx.createOscillator(); const g = ctx.createGain();
+        o.type='sine'; o.frequency.setValueAtTime(440, ctx.currentTime);
+        g.gain.setValueAtTime(0.0001, ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.12, ctx.currentTime+0.02);
+        o.connect(g); g.connect(ctx.destination); o.start();
+        o.frequency.linearRampToValueAtTime(660, ctx.currentTime+0.25);
+        setTimeout(()=>o.stop(),520);
+        const btn = document.getElementById('playBtn'); btn.textContent='Played ✅'; setTimeout(()=>btn.textContent='Play tune',1200);
+      }catch(e){ alert('Audio not supported'); }
+    });
+
+    document.getElementById('downloadBtn').addEventListener('click', ()=>{
+      const el = document.querySelector('.wrap');
+      const w = el.offsetWidth, h = el.offsetHeight;
+      const style = window.getComputedStyle(document.body).background;
+      const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='${w}' height='${h}'><foreignObject width='100%' height='100%'><div xmlns='http://www.w3.org/1999/xhtml' style='font-family:Inter, system-ui; width:${w}px; height:${h}px; padding:20px; color:${getComputedStyle(document.body).color};'>` + el.innerHTML + `</div></foreignObject></svg>`;
+      const blob = new Blob([svg], {type:'image/svg+xml'}); const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = `HappyBirthday-${name}.svg`; a.click(); URL.revokeObjectURL(url);
+    });
+
+    document.getElementById('linkBtn').addEventListener('click', async ()=>{
+      try{ await navigator.clipboard.writeText(location.href); alert('Link copied to clipboard!'); }catch(e){ prompt('Copy this link:', location.href); }
+    });
+
+    document.getElementById('whatsapp').addEventListener('click', ()=>{
+      const msg = encodeURIComponent(`Happy Birthday ${name}! 🎉 Wishing you a wonderful day — from a friend.`);
+      window.open(`https://wa.me/?text=${msg}`, '_blank');
+    });
+
+    function confettiBurst(){
+      const wrap = document.querySelector('.wrap');
+      for(let i=0;i<28;i++){
+        const d = document.createElement('div');
+        const size = 6 + Math.random()*10;
+        d.style.position='absolute'; d.style.left = (5 + Math.random()*90) + '%'; d.style.top = (5 + Math.random()*30) + '%';
+        d.style.width = size + 'px'; d.style.height = size*1.4 + 'px';
+        d.style.background = ['#ff7ab6','#60a5fa','#fbbf24','#f472b6'][Math.floor(Math.random()*4)];
+        d.style.borderRadius = '3px'; d.style.opacity='0.95';
+        d.style.transform = `translateY(-10px) rotate(${Math.random()*360}deg)`; d.style.transition = `transform ${1.6+Math.random()*0.9}s cubic-bezier(.17,.67,.34,1), opacity 1.6s`;
+        wrap.appendChild(d);
+        requestAnimationFrame(()=>{ d.style.transform = `translateY(${180 + Math.random()*260}px) rotate(${Math.random()*720}deg)`; d.style.opacity='0';});
+        setTimeout(()=>d.remove(),3200);
+      }
+    }
+    window.addEventListener('load', ()=>{ setTimeout(confettiBurst, 350); });
+  </script>
+</body>
+</html>
